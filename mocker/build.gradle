@@ -1,0 +1,49 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+
+    dependencies {
+        classpath 'com.novoda:bintray-release:0.3.4'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.3'
+        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
+    }
+}
+
+apply plugin: 'java'
+
+sourceCompatibility = JavaVersion.VERSION_1_7
+targetCompatibility = JavaVersion.VERSION_1_7
+
+repositories {
+    jcenter()
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    compile 'org.mockito:mockito-core:1.10.19'
+    testCompile 'junit:junit:4.12'
+}
+
+tasks.withType(Test) {
+  testLogging {
+    exceptionFormat "full"
+    //events "passed", "skipped", "failed"
+    events "passed", "skipped", "failed", "standardOut", "standardError"
+    showStandardStreams = true
+  }
+}
+
+apply from: 'javadoc.gradle'
+
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
+
+coveralls {
+    jacocoReportPath 'build/outputs/reports/coverage/debug/report.xml'
+}
+
+//tasks.coveralls {
+//    dependsOn 'check'
+//}
