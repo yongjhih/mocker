@@ -10,20 +10,15 @@
 
 ```java
 ParseUser mockUser = Mocker.of(ParseUser.class)
-    .when(user -> user.getObjectId())
-    .thenReturn(user -> "1_" + user.hashCode());
+    .when(user -> user.getObjectId()).thenReturn(user -> "1_" + user.hashCode());
     .mock();
 ```
 
 ```java
 ParseQuery<ParseUser> mockQuery = Mocker.of(mock(ParseQuery.class))
-    .when(query -> query.countInBackground())
-    .thenReturn(query -> Task.forResult(users.size()))
-    .when(query -> query.findInBackground())
-    .thenReturn(query -> Task.forResult(users))
-    .when(query -> query.setSkip(any(int.class)))
-    .thenReturn(query -> null)
-    .when(query -> query.setLimit(any(int.class)))
-    .thenReturn(query -> null)
+    .when(query -> query.countInBackground()).thenReturn(query -> Task.forResult(users.size()))
+    .when(query -> query.findInBackground()).thenReturn(query -> Task.forResult(users))
+    .when(query -> query.setSkip(any(int.class))).thenReturn(query -> null)
+    .when(query -> query.setLimit(any(int.class))).thenReturn(query -> null)
     .mock();
 ```
