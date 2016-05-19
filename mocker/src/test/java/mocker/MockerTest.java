@@ -109,6 +109,13 @@ public class MockerTest {
     }
 
     @Test
+    public void testMockerRecursive() {
+        Mocker<List> mocker = mocker(List.class);
+
+        assertNotSame(mocker.mock().hashCode(), mocker.mock().hashCode());
+    }
+
+    @Test
     public void testMockerWhenThenRecursive() {
         Mocker<List> mocker = mocker(List.class).<Integer>when(new Func1<List, Integer>() {
             @Override public Integer call(List list) {
