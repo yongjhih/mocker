@@ -36,6 +36,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import org.mockito.Mockito;
 import static mocker.Mocker.mocker;
 import static mocker.Mocker.mock;
 import mocker.Mocker;
@@ -81,5 +82,16 @@ public class MockerTest {
 
         assertEquals(3, mock.size());
     }
+    @Test
+    public void testMockerThen() {
+        List<String> mock = mocker(List.class).then(new Action1<List>() {
+            @Override public void call(List list) {
+                Mockito.when(list.size()).thenReturn(3);
+            }
+        }).mock();
+
+        assertEquals(3, mock.size());
+    }
+
 
 }

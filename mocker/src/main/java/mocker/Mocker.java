@@ -32,6 +32,10 @@ public class Mocker<T> {
         public R call(V v, V2 v2);
     }
 
+    public interface Action1<V> {
+        public void call(V v);
+    }
+
     public Mocker(Class<T> clazz) {
         this.clazz = clazz;
         this.that = mock(clazz);
@@ -74,5 +78,10 @@ public class Mocker<T> {
      */
     public static <V> Mocker<V> mocker(Class<V> clazz) {
         return of(clazz);
+    }
+
+    public <V> Mocker<T> then(Action1<T> then) {
+        then.call(that);
+        return this;
     }
 }
