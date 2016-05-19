@@ -81,6 +81,16 @@ rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.all(mocker(ParseQ
         ).completes();
 ```
 
+## TODO
+
+```java
+Mocker<ParseUser> mocker = mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> String.valueOf(user.hashCode()));
+Mocker<ParseUser> mocker2 = mocker.when(user -> user.getUsername() ()).thenReturn(user -> String.valueOf(user.hashCode()))
+                                 .when(user -> user.getSessionToken()).thenReturn(user -> String.valueOf(user.hashCode()));
+
+List<ParseUser> users = Arrays.asList(mocker.mock(), mocker.mock(), mocker2.mock(), mocker2.mock());
+```
+
 ## Installation
 
 ```gradle
