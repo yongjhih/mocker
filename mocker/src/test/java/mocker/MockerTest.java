@@ -28,6 +28,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -82,6 +83,20 @@ public class MockerTest {
 
         assertEquals(3, mock.size());
     }
+
+    @Test
+    public void testMockerThenRecursive() {
+        Mocker<List> mocker = mocker(List.class).then(new Action1<List>() {
+            @Override public void call(List list) {
+                Mockito.when(list.size()).thenReturn(3);
+            }
+        });
+
+        assertEquals(3, mocker.mock().size());
+        assertEquals(3, mocker.mock().size());
+        assertNotSame(mocker.mock(), mocker.mock());
+    }
+
     @Test
     public void testMockerThen() {
         List<String> mock = mocker(List.class).then(new Action1<List>() {
@@ -93,5 +108,21 @@ public class MockerTest {
         assertEquals(3, mock.size());
     }
 
+    @Test
+    public void testMockerWhenThenRecursive() {
+        Mocker<List> mocker = mocker(List.class).<Integer>when(new Func1<List, Integer>() {
+            @Override public Integer call(List list) {
+                return list.size();
+            }
+        }).<Integer>thenReturn(new Func1<List, Integer>() {
+            @Override public Integer call(List list) {
+                return 3;
+            }
+        });
+
+        assertEquals(3, mocker.mock().size());
+        assertEquals(3, mocker.mock().size());
+        assertNotSame(mocker.mock(), mocker.mock());
+    }
 
 }

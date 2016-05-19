@@ -16,9 +16,11 @@ import org.mockito.Mockito;
 
 public class Mocker<T> {
     Class<T> clazz;
-    T that;
     Func1<T, ?> when;
     Func1<T, ?> thenReturn;
+    Action1<T> then;
+    Mocker<T> mocker;
+    T that;
 
     public interface Func0<R> {
         public R call();
@@ -38,7 +40,11 @@ public class Mocker<T> {
 
     public Mocker(Class<T> clazz) {
         this.clazz = clazz;
-        this.that = mock(clazz);
+    }
+
+    public Mocker(Mocker<T> mocker) {
+        this.clazz = mocker.clazz;
+        this.mocker = mocker;
     }
 
     public <R> Mocker<T> when(Func1<T, R> when) {
@@ -48,9 +54,8 @@ public class Mocker<T> {
 
     public <R> Mocker<T> thenReturn(Func1<T, R> thenReturn) {
         if (when == null) throw new NullPointerException("Missin .when()");
-        Mockito.when(when.call(that)).thenReturn(thenReturn.call(that));
-        when = null;
-        return this;
+        this.thenReturn = thenReturn;
+        return new Mocker<>(this);
     }
 
     //public static <V> Mocker<V> of(Class<?> clazz) {
@@ -62,6 +67,24 @@ public class Mocker<T> {
     }
 
     public T mock() {
+        if (that == null) that = mock(clazz);
+
+        if (mocker != null) {
+            mocker.that = that;
+            mocker.mock();
+        }
+
+        if (when != null && thenReturn != null) {
+            Mockito.when(when.call(that)).thenReturn(thenReturn.call(that));
+        }
+        if (then != null) {
+            then.call(that);
+        }
+
+        // clear that after return, to mack sure next mock() will regenerate mock(clazz) that
+        T that = this.that;
+        this.that = null;
+
         return that;
     }
 
@@ -81,7 +104,7 @@ public class Mocker<T> {
     }
 
     public <V> Mocker<T> then(Action1<T> then) {
-        then.call(that);
-        return this;
+        this.then = then;
+        return new Mocker<>(this);
     }
 }

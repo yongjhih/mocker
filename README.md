@@ -91,11 +91,11 @@ repositories {
 
 dependencies {
     testCompile 'com.github.yongjhih:mocker:-SNAPSHOT'
-    //testCompile 'com.github.yongjhih:mocker:0.0.6'
+    //testCompile 'com.github.yongjhih:mocker:0.1.0'
 }
 ```
 
-## TODO
+## Bonus: Reuse mocker
 
 ```java
 Mocker<ParseUser> mocker = mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> String.valueOf(user.hashCode()));
