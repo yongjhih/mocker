@@ -33,7 +33,7 @@ ParseUser mockUser = Mocker.of(ParseUser.class)
 Multiple when-thenReturn:
 
 ```java
-ParseQuery<ParseUser> mockQuery = Mocker.of(mock(ParseQuery.class))
+ParseQuery<ParseUser> mockQuery = Mocker.of(ParseQuery.class)
     .when(query -> query.countInBackground()).thenReturn(query -> Task.forResult(users.size()))
     .when(query -> query.findInBackground()).thenReturn(query -> Task.forResult(users))
     .when(query -> query.setSkip(any(int.class))).thenReturn(query -> null)
