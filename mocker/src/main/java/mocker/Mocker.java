@@ -34,7 +34,7 @@ public class Mocker<T> {
 
     public Mocker(Class<T> clazz) {
         this.clazz = clazz;
-        this.that = Mockito.mock(clazz);
+        this.that = mock(clazz);
     }
 
     public <R> Mocker<T> when(Func1<T, R> when) {
@@ -59,5 +59,20 @@ public class Mocker<T> {
 
     public T mock() {
         return that;
+    }
+
+    /**
+     * Support infer instead of Mockito.mock()
+     */
+    @SuppressWarnings("unchecked")
+    public static <V> V mock(Class<V> clazz) {
+        return (V) Mockito.mock(clazz);
+    }
+
+    /**
+     * For import
+     */
+    public static <V> Mocker<V> mocker(Class<V> clazz) {
+        return of(clazz);
     }
 }
