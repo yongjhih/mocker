@@ -8,11 +8,29 @@
 
 ## Usage
 
+mock():
+
+```java
+ParseUser mockUser = Mocker.of(ParseUser.class).mock();
+```
+
+Infer casting:
+
+```java
+// Before: ParseQuery<ParseUser> mockQuery = (ParseQuery<ParseUser>) Mockito.mock(ParseQuery.class);
+// After:
+ParseQuery<ParseUser> mockQuery = Mocker.of(ParseQuery.class).mock();
+```
+
+when-thenReturn:
+
 ```java
 ParseUser mockUser = Mocker.of(ParseUser.class)
     .when(user -> user.getObjectId()).thenReturn(user -> "1_" + user.hashCode());
     .mock();
 ```
+
+Multiple when-thenReturn:
 
 ```java
 ParseQuery<ParseUser> mockQuery = Mocker.of(mock(ParseQuery.class))
