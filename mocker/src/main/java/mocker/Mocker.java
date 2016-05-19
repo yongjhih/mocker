@@ -21,15 +21,15 @@ public class Mocker<T> {
     Func1<T, ?> thenReturn;
 
     public interface Func0<R> {
-        R call();
+        public R call();
     }
 
     public interface Func1<V, R> {
-        R call(V v);
+        public R call(V v);
     }
 
     public interface Func2<V, V2, R> {
-        R call(V v, V2 v2);
+        public R call(V v, V2 v2);
     }
 
     public Mocker(Class<T> clazz) {
