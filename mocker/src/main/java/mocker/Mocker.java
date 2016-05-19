@@ -20,15 +20,15 @@ public class Mocker<T> {
     Func1<T, ?> when;
     Func1<T, ?> thenReturn;
 
-    interface Func0<R> {
+    public interface Func0<R> {
         R call();
     }
 
-    interface Func1<V, R> {
+    public interface Func1<V, R> {
         R call(V v);
     }
 
-    interface Func2<V, V2, R> {
+    public interface Func2<V, V2, R> {
         R call(V v, V2 v2);
     }
 
