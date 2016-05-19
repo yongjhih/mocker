@@ -80,3 +80,17 @@ rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.all(Mocker.of(Par
             .when(query -> query.setLimit(any(int.class))).thenReturn(query -> null).mock())
         ).completes();
 ```
+
+## Installation
+
+```gradle
+repositories {
+    // ...
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    testCompile 'com.github.yongjhih:mocker:-SNAPSHOT'
+    //testCompile 'com.github.yongjhih:mocker:0.0.5'
+}
+```
