@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import org.mockito.Mockito;
 
 public class Mocker<T> {
+    Class<T> clazz;
     T that;
     Func1<T, ?> when;
     Func1<T, ?> thenReturn;
@@ -31,11 +32,9 @@ public class Mocker<T> {
         R call(V v, V2 v2);
     }
 
-    private Func0<Class<T>> clazz;
-
-    public Mocker(Func0<Class<T>> clazz) {
+    public Mocker(Class<T> clazz) {
         this.clazz = clazz;
-        this.that = Mockito.mock(clazz.call());
+        this.that = Mockito.mock(clazz);
     }
 
     public <R> Mocker<T> when(Func1<T, R> when) {
@@ -52,7 +51,7 @@ public class Mocker<T> {
         //return new Mocker<>
     //}
 
-    public static <V> Mocker<V> of(Func0<Class<V>> clazz) {
+    public static <V> Mocker<V> of(Class<V> clazz) {
         return new Mocker<>(clazz);
     }
 
