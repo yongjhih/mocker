@@ -43,7 +43,9 @@ public class Mocker<T> {
     }
 
     public <R> Mocker<T> thenReturn(Func1<T, R> thenReturn) {
+        if (when == null) throw new NullPointerException("Missin .when()");
         Mockito.when(when.call(that)).thenReturn(thenReturn.call(that));
+        when = null;
         return this;
     }
 
