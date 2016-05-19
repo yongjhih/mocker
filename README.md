@@ -11,7 +11,7 @@
 mock():
 
 ```java
-ParseUser mockUser = Mocker.of(ParseUser.class).mock();
+ParseUser mockUser = mocker(ParseUser.class).mock();
 ```
 
 Infer casting:
@@ -19,13 +19,13 @@ Infer casting:
 ```java
 // Before: ParseQuery<ParseUser> mockQuery = (ParseQuery<ParseUser>) Mockito.mock(ParseQuery.class);
 // After:
-ParseQuery<ParseUser> mockQuery = Mocker.of(ParseQuery.class).mock();
+ParseQuery<ParseUser> mockQuery = mocker(ParseQuery.class).mock();
 ```
 
 when-thenReturn:
 
 ```java
-ParseUser mockUser = Mocker.of(ParseUser.class)
+ParseUser mockUser = mocker(ParseUser.class)
     .when(user -> user.getObjectId()).thenReturn(user -> "1_" + user.hashCode());
     .mock();
 ```
@@ -33,7 +33,7 @@ ParseUser mockUser = Mocker.of(ParseUser.class)
 Multiple when-thenReturn:
 
 ```java
-ParseQuery<ParseUser> mockQuery = Mocker.of(ParseQuery.class)
+ParseQuery<ParseUser> mockQuery = mocker(ParseQuery.class)
     .when(query -> query.countInBackground()).thenReturn(query -> Task.forResult(users.size()))
     .when(query -> query.findInBackground()).thenReturn(query -> Task.forResult(users))
     .when(query -> query.setSkip(any(int.class))).thenReturn(query -> null)
@@ -69,11 +69,11 @@ After:
 
 ```java
 List<ParseUser> users = Arrays.asList(
-        Mocker.of(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "1_" + user.hashCode()).mock(),
-        Mocker.of(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "2_" + user.hashCode()).mock(),
-        Mocker.of(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "3_" + user.hashCode()).mock());
+        mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "1_" + user.hashCode()).mock(),
+        mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "2_" + user.hashCode()).mock(),
+        mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "3_" + user.hashCode()).mock());
 
-rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.all(Mocker.of(ParseQuery.class)
+rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.all(mocker(ParseQuery.class)
             .when(query -> query.countInBackground()).thenReturn(query -> Task.forResult(users.size()))
             .when(query -> query.findInBackground()).thenReturn(query -> Task.forResult(users))
             .when(query -> query.setSkip(any(int.class))).thenReturn(query -> null)
@@ -91,6 +91,6 @@ repositories {
 
 dependencies {
     testCompile 'com.github.yongjhih:mocker:-SNAPSHOT'
-    //testCompile 'com.github.yongjhih:mocker:0.0.5'
+    //testCompile 'com.github.yongjhih:mocker:0.0.6'
 }
 ```
