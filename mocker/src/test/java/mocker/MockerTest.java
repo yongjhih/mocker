@@ -234,6 +234,19 @@ public class MockerTest {
     }
 
     @Test
+    public void testMockerThenThenSafeLift() {
+        Mocker<List> mocker = mocker(List.class).then(new Action1<List>() {
+            @Override public void call(List list) {
+            }
+        }).then(new Action1<List>() {
+            @Override public void call(List list) {
+            }
+        });
+
+        assertSame(mocker.safeLift(), mocker.safeLift());
+    }
+
+    @Test
     public void testMockerLiftSwtich() {
         Mocker<List> mocker = mocker(List.class).then(new Action1<List>() {
             @Override public void call(List list) {
