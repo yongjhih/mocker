@@ -132,4 +132,34 @@ public class MockerTest {
         assertNotSame(mocker.mock(), mocker.mock());
     }
 
+    @Test
+    public void testMockerLift() {
+        Mocker<List> mocker = mocker(List.class).then(new Action1<List>() {
+            @Override public void call(List list) {
+            }
+        });
+
+        assertSame(mocker.lift(), mocker.lift());
+    }
+
+    @Test
+    public void testMockerSafeLift() {
+        Mocker<List> mocker = mocker(List.class).then(new Action1<List>() {
+            @Override public void call(List list) {
+            }
+        });
+
+        assertSame(mocker.safeLift(), mocker.safeLift());
+    }
+
+    @Test
+    public void testMockerLiftSwtich() {
+        Mocker<List> mocker = mocker(List.class).then(new Action1<List>() {
+            @Override public void call(List list) {
+            }
+        });
+        Mocker<List> mocker2 = mocker.lift(mocker).lift();
+
+        assertSame(mocker.lift(), mocker2);
+    }
 }

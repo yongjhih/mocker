@@ -110,7 +110,7 @@ List<ParseUser> users = Arrays.asList(mocker.mock(), mocker.mock(), mocker2.mock
 ```java
 Mocker<ParseUser> mocker = mocker(ParseUser.class);
 Mocker<ParseUser> mocker2 = mocker.then(user -> when(user.getUsername()).thenReturn(String.valueOf(user.hashCode())));
-Mocker<ParseUser> mocker3 = mocker3.then(user -> when(user.getSessionToken).thenReturn(String.valueOf(user.hashCode())));
+Mocker<ParseUser> mocker3 = mocker2.then(user -> when(user.getSessionToken).thenReturn(String.valueOf(user.hashCode())));
 
 List<ParseUser> users = Arrays.asList(mocker.mock(), mocker.mock(), mocker2.mock(), mocker3.mock());
 ```

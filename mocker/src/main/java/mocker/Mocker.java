@@ -107,4 +107,22 @@ public class Mocker<T> {
         this.then = then;
         return new Mocker<>(this);
     }
+
+    /**
+     * Warning: lift().lift() NPE risk
+     */
+    public <V> Mocker<T> lift() {
+        return mocker;
+    }
+
+    public <V> Mocker<T> safeLift() {
+        if (mocker == null) return this;
+        return mocker;
+    }
+
+    // Alias switchMap()
+    public Mocker<T> lift(Mocker<T> mocker) {
+        this.mocker = mocker;
+        return new Mocker<>(this);
+    }
 }
