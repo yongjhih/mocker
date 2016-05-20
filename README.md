@@ -1,10 +1,12 @@
-# Mocker
+# mocker
 
 [![JitPack](https://img.shields.io/github/tag/yongjhih/mocker.svg?label=JitPack)](https://jitpack.io/#yongjhih/mocker)
 [![Coverage Status](https://coveralls.io/repos/github/yongjhih/mocker/badge.svg)](https://coveralls.io/github/yongjhih/mocker)
 [![Build Status](https://travis-ci.org/yongjhih/mocker.svg)](https://travis-ci.org/yongjhih/mocker)
 [![javadoc](https://img.shields.io/github/tag/yongjhih/mocker.svg?label=javadoc)](https://jitpack.io/com/github/yongjhih/mocker/-SNAPSHOT/javadoc/)
 <!--[![Download](https://api.bintray.com/packages/yongjhih/maven/mocker/images/download.svg) ](https://bintray.com/yongjhih/maven/mocker/_latestVersion)-->
+
+![](art/mocker.png)
 
 ## Usage
 
