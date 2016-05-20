@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertNotSame;
@@ -116,7 +117,7 @@ public class MockerTest {
     }
 
     @Test
-    public void testMockerWhenThenRecursive() {
+    public void testMockerRemock() {
         Mocker<List> mocker = mocker(List.class).<Integer>when(new Func1<List, Integer>() {
             @Override public Integer call(List list) {
                 return list.size();
@@ -127,9 +128,73 @@ public class MockerTest {
             }
         });
 
-        assertEquals(3, mocker.mock().size());
-        assertEquals(3, mocker.mock().size());
         assertNotSame(mocker.mock(), mocker.mock());
+        assertNotEquals(mocker.mock().hashCode(), mocker.mock().hashCode());
+    }
+
+    @Test
+    public void testMockerReuseSequense() {
+        Mocker<List> mocker = mocker(List.class).<Integer>when(new Func1<List, Integer>() {
+            @Override public Integer call(List list) {
+                return list.size();
+            }
+        }).<Integer>thenReturn(new Func1<List, Integer>() {
+            @Override public Integer call(List list) {
+                return 3;
+            }
+        });
+
+        List list = mocker.mock();
+
+        Mocker<List> mocker2 = mocker.<String>when(new Func1<List, String>() {
+            @Override public String call(List list) {
+                return list.toString();
+            }
+        }).<String>thenReturn(new Func1<List, String>() {
+            @Override public String call(List list) {
+                return "hello";
+            }
+        });
+
+        List list2 = mocker2.mock();
+
+        assertEquals(3, list.size());
+        assertNotEquals("hello", list.toString());
+
+        assertEquals(3, list2.size());
+        assertEquals("hello", list2.toString());
+    }
+
+    @Test
+    public void testMockerReuseParallel() {
+        Mocker<List> mocker = mocker(List.class).<Integer>when(new Func1<List, Integer>() {
+            @Override public Integer call(List list) {
+                return list.size();
+            }
+        }).<Integer>thenReturn(new Func1<List, Integer>() {
+            @Override public Integer call(List list) {
+                return 3;
+            }
+        });
+
+        Mocker<List> mocker2 = mocker.<String>when(new Func1<List, String>() {
+            @Override public String call(List list) {
+                return list.toString();
+            }
+        }).<String>thenReturn(new Func1<List, String>() {
+            @Override public String call(List list) {
+                return "hello";
+            }
+        });
+
+        List list = mocker.mock();
+        List list2 = mocker2.mock();
+
+        assertEquals(3, list.size());
+        assertNotEquals("hello", list.toString());
+
+        assertEquals(3, list2.size());
+        assertEquals("hello", list2.toString());
     }
 
     @Test

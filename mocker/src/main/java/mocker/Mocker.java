@@ -48,6 +48,11 @@ public class Mocker<T> {
     }
 
     public <R> Mocker<T> when(Func1<T, R> when) {
+        if (this.when != null) {
+            Mocker<T> mocker = new Mocker<>(this);
+            mocker.when(when);
+            return mocker;
+        }
         this.when = when;
         return this;
     }
@@ -55,7 +60,7 @@ public class Mocker<T> {
     public <R> Mocker<T> thenReturn(Func1<T, R> thenReturn) {
         if (when == null) throw new NullPointerException("Missing .when()");
         this.thenReturn = thenReturn;
-        return new Mocker<>(this);
+        return this;
     }
 
     //public static <V> Mocker<V> of(Class<?> clazz) {
@@ -104,8 +109,13 @@ public class Mocker<T> {
     }
 
     public <V> Mocker<T> then(Action1<T> then) {
+        if (this.then != null) {
+            Mocker<T> mocker = new Mocker<>(this);
+            mocker.then(then);
+            return mocker;
+        }
         this.then = then;
-        return new Mocker<>(this);
+        return this;
     }
 
     /**
