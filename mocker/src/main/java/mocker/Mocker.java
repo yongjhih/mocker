@@ -53,7 +53,7 @@ public class Mocker<T> {
     }
 
     public <R> Mocker<T> thenReturn(Func1<T, R> thenReturn) {
-        if (when == null) throw new NullPointerException("Missin .when()");
+        if (when == null) throw new NullPointerException("Missing .when()");
         this.thenReturn = thenReturn;
         return new Mocker<>(this);
     }
