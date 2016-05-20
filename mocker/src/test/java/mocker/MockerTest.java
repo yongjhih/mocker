@@ -110,6 +110,22 @@ public class MockerTest {
     }
 
     @Test
+    public void testMockerThenThen() {
+        List<String> mock = mocker(List.class).then(new Action1<List>() {
+            @Override public void call(List list) {
+                Mockito.when(list.size()).thenReturn(3);
+            }
+        }).then(new Action1<List>() {
+            @Override public void call(List list) {
+                Mockito.when(list.toString()).thenReturn("hello");
+            }
+        }).mock();
+
+        assertEquals(3, mock.size());
+        assertEquals("hello", mock.toString());
+    }
+
+    @Test
     public void testMockerRecursive() {
         Mocker<List> mocker = mocker(List.class);
 
