@@ -100,19 +100,17 @@ dependencies {
 ## Bonus: Reuse mocker
 
 ```java
-Mocker<ParseUser> mocker = mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> String.valueOf(user.hashCode()));
-Mocker<ParseUser> mocker2 = mocker.when(user -> user.getUsername()).thenReturn(user -> String.valueOf(user.hashCode()))
-                                  .when(user -> user.getSessionToken()).thenReturn(user -> String.valueOf(user.hashCode()));
+Mocker<List> mocker = mocker(List.class).when(list -> list.size()).thenReturn(list -> 3);
+Mocker<List> mocker2 = mocker.when(list -> list.toString()).thenReturn(list -> "hello");
 
-List<ParseUser> users = Arrays.asList(mocker.mock(), mocker.mock(), mocker2.mock(), mocker2.mock());
-```
+List list = mocker.mock();
+List list2 = mocker2.mock();
 
-```java
-Mocker<ParseUser> mocker = mocker(ParseUser.class);
-Mocker<ParseUser> mocker2 = mocker.then(user -> when(user.getUsername()).thenReturn(String.valueOf(user.hashCode())));
-Mocker<ParseUser> mocker3 = mocker2.then(user -> when(user.getSessionToken).thenReturn(String.valueOf(user.hashCode())));
+assertEquals(3, list.size());
+assertEquals(3, list2.size());
 
-List<ParseUser> users = Arrays.asList(mocker.mock(), mocker.mock(), mocker2.mock(), mocker3.mock());
+assertNotEquals("hello", list.toString());
+assertEquals("hello", list2.toString());
 ```
 
 ## LICENSE
