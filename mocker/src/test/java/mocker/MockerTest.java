@@ -132,6 +132,36 @@ public class MockerTest {
     }
 
     @Test
+    public void testMockerWhenThenWhen2Then2() {
+        Mocker<List> mocker = mocker(List.class).<String>when(new Func1<List, String>() {
+            @Override public String call(List list) {
+                return list.toString();
+            }
+        }).<String>thenReturn(new Func1<List, String>() {
+            @Override public String call(List list) {
+                return "hello";
+            }
+        });
+
+        List list = mocker.mock();
+        List list2 = mocker.<Integer>when(new Func2<List, Integer, Integer>() {
+            @Override public Integer call(List list, Integer i) {
+                return list.size();
+            }
+        }).<Integer>thenReturn(new Func1<List, Integer>() {
+            @Override public Integer call(List list) {
+                return 3;
+            }
+        }).mock();
+
+        assertEquals("hello", list.toString());
+        assertEquals("hello", list2.toString());
+        assertNotEquals(3, list.size());
+        assertEquals(3, list2.size());
+        assertNotSame(list, list2);
+    }
+
+    @Test
     public void testMockerWhen2Then2Resue() {
         Mocker<List> mocker = mocker(List.class).<String>when(new Func2<List, Integer, String>() {
             @Override public String call(List list, Integer i) {

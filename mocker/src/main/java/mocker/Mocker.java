@@ -55,7 +55,7 @@ public class Mocker<T> {
     }
 
     public <R> Mocker<T> when(Func1<T, R> when) {
-        if (this.when != null) {
+        if (this.when != null || this.when2 != null) {
             Mocker<T> mocker = new Mocker<>(this);
             mocker.when(when);
             return mocker;
@@ -65,7 +65,7 @@ public class Mocker<T> {
     }
 
     public <R> Mocker<T> when(Func2<T, Integer, R> when) {
-        if (this.when2 != null) {
+        if (this.when != null || this.when2 != null) {
             Mocker<T> mocker = new Mocker<>(this);
             mocker.when(when);
             return mocker;
