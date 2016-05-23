@@ -302,6 +302,24 @@ public class MockerTest {
     }
 
     @Test
+    public void testMockerThenThenWithIndex() {
+        List<List> list = mocker(List.class).then(new Action2<List, Integer>() {
+            @Override public void call(List list, Integer i) {
+                Mockito.when(list.size()).thenReturn(3);
+            }
+        }).then(new Action2<List, Integer>() {
+            @Override public void call(List list, Integer i) {
+                Mockito.when(list.toString()).thenReturn("hello");
+            }
+        }).asList(3);
+
+        for (List item : list) {
+            assertEquals(item.size(), 3);
+            assertEquals(item.toString(), "hello");
+        }
+    }
+
+    @Test
     public void testMockerAsListMany() {
         List<List> list = mocker(List.class).<String>when(new Func1<List, String>() {
             @Override public String call(List list) {
