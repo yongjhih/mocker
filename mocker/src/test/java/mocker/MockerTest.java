@@ -25,14 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
@@ -51,7 +44,7 @@ public class MockerTest {
         List mock = mocker(List.class).mock();
         when(mock.size()).thenReturn(3);
 
-        assertEquals(3, mock.size());
+        assertThat(mock.size()).isEqualTo(3);
     }
 
     @Test
@@ -59,7 +52,7 @@ public class MockerTest {
         List mock = Mocker.of(List.class).mock();
         when(mock.size()).thenReturn(3);
 
-        assertEquals(3, mock.size());
+        assertThat(mock.size()).isEqualTo(3);
     }
 
     @Test
@@ -67,7 +60,7 @@ public class MockerTest {
         List mock = mock(List.class);
         when(mock.size()).thenReturn(3);
 
-        assertEquals(3, mock.size());
+        assertThat(mock.size()).isEqualTo(3);
     }
 
     @Test
@@ -82,7 +75,7 @@ public class MockerTest {
             }
         }).mock();
 
-        assertEquals(3, mock.size());
+        assertThat(mock.size()).isEqualTo(3);
     }
 
     @Test
@@ -97,7 +90,7 @@ public class MockerTest {
             }
         }).mock();
 
-        assertEquals(3, mock.size());
+        assertThat(mock.size()).isEqualTo(3);
     }
 
     @Test
@@ -112,7 +105,7 @@ public class MockerTest {
             }
         }).mock();
 
-        assertEquals(3, mock.size());
+        assertThat(mock.size()).isEqualTo(3);
     }
 
     @Test
@@ -126,9 +119,9 @@ public class MockerTest {
         List list = mocker.mock();
         List list2 = mocker.mock();
 
-        assertEquals(3, list.size());
-        assertEquals(3, list2.size());
-        assertNotSame(list, list2);
+        assertThat(list.size()).isEqualTo(3);
+        assertThat(list2.size()).isEqualTo(3);
+        assertThat(list).isNotSameAs(list2);
     }
 
     @Test
@@ -154,11 +147,12 @@ public class MockerTest {
             }
         }).mock();
 
-        assertEquals("hello", list.toString());
-        assertEquals("hello", list2.toString());
-        assertNotEquals(3, list.size());
-        assertEquals(3, list2.size());
-        assertNotSame(list, list2);
+        assertThat(list.toString()).isEqualTo("hello");
+        assertThat(list2.toString()).isEqualTo("hello");
+        assertThat(list.size()).isNotEqualTo(3);
+        assertThat(list2.size()).isEqualTo(3);
+        assertThat(list).isNotSameAs(list2);
+        //assertNotSame(list, list2);
     }
 
     @Test
@@ -184,11 +178,11 @@ public class MockerTest {
             }
         }).mock();
 
-        assertEquals("hello", list.toString());
-        assertEquals("hello", list2.toString());
-        assertNotEquals(3, list.size());
-        assertEquals(3, list2.size());
-        assertNotSame(list, list2);
+        assertThat(list.toString()).isEqualTo("hello");
+        assertThat(list2.toString()).isEqualTo("hello");
+        assertThat(list.size()).isNotEqualTo(3);
+        assertThat(list2.size()).isEqualTo(3);
+        assertThat(list).isNotSameAs(list2);
     }
 
     @Test
@@ -199,7 +193,7 @@ public class MockerTest {
             }
         }).mock();
 
-        assertEquals(3, mock.size());
+        assertThat(mock.size()).isEqualTo(3);
     }
 
     @Test
@@ -214,15 +208,15 @@ public class MockerTest {
             }
         }).mock();
 
-        assertEquals(3, mock.size());
-        assertEquals("hello", mock.toString());
+        assertThat(mock.size()).isEqualTo(3);
+        assertThat(mock.toString()).isEqualTo("hello");
     }
 
     @Test
     public void testMockerResue() {
         Mocker<List> mocker = mocker(List.class);
 
-        assertNotSame(mocker.mock().hashCode(), mocker.mock().hashCode());
+        assertThat(mocker.mock().hashCode()).isNotSameAs(mocker.mock().hashCode());
     }
 
     @Test
@@ -237,8 +231,8 @@ public class MockerTest {
             }
         });
 
-        assertNotSame(mocker.mock(), mocker.mock());
-        assertNotEquals(mocker.mock().hashCode(), mocker.mock().hashCode());
+        assertThat(mocker.mock().hashCode()).isNotSameAs(mocker.mock().hashCode());
+        assertThat(mocker.mock().hashCode()).isNotEqualTo(mocker.mock().hashCode());
     }
 
     @Test
@@ -267,11 +261,11 @@ public class MockerTest {
 
         List list2 = mocker2.mock();
 
-        assertEquals(3, list.size());
-        assertNotEquals("hello", list.toString());
+        assertThat(list.size()).isEqualTo(3);
+        assertThat(list2.size()).isEqualTo(3);
 
-        assertEquals(3, list2.size());
-        assertEquals("hello", list2.toString());
+        assertThat(list.toString()).isNotEqualTo("hello");
+        assertThat(list2.toString()).isEqualTo("hello");
     }
 
     @Test
@@ -299,11 +293,11 @@ public class MockerTest {
         List list = mocker.mock();
         List list2 = mocker2.mock();
 
-        assertEquals(3, list.size());
-        assertNotEquals("hello", list.toString());
+        assertThat(list.size()).isEqualTo(3);
+        assertThat(list2.size()).isEqualTo(3);
 
-        assertEquals(3, list2.size());
-        assertEquals("hello", list2.toString());
+        assertThat(list.toString()).isNotEqualTo("hello");
+        assertThat(list2.toString()).isEqualTo("hello");
     }
 
     @Test
@@ -313,7 +307,7 @@ public class MockerTest {
             }
         });
 
-        assertSame(mocker.lift(), mocker.lift());
+        assertThat(mocker.lift()).isSameAs(mocker.lift());
     }
 
     @Test
@@ -323,7 +317,7 @@ public class MockerTest {
             }
         });
 
-        assertSame(mocker.safeLift(), mocker.safeLift());
+        assertThat(mocker.safeLift()).isSameAs(mocker.safeLift());
     }
 
     @Test
@@ -336,7 +330,7 @@ public class MockerTest {
             }
         });
 
-        assertSame(mocker.safeLift(), mocker.safeLift());
+        assertThat(mocker.safeLift()).isSameAs(mocker.safeLift());
     }
 
     @Test
@@ -347,7 +341,7 @@ public class MockerTest {
         });
         Mocker<List> mocker2 = mocker.lift(mocker).lift();
 
-        assertSame(mocker.lift(), mocker2);
+        assertThat(mocker.lift()).isSameAs(mocker2);
     }
 
     @Test
@@ -362,8 +356,8 @@ public class MockerTest {
             }
         }).asList();
 
-        assertEquals(list.size(), 1);
-        assertEquals(list.get(0).toString(), "hello");
+        assertThat(list.size()).isEqualTo(1);
+        assertThat(list.get(0).toString()).isEqualTo("hello");
     }
 
     @Test
@@ -378,8 +372,8 @@ public class MockerTest {
             }
         }).asList(3);
 
-        assertEquals(list.size(), 3);
-        for (List item : list) assertEquals(item.toString(), "hello");
+        assertThat(list.size()).isEqualTo(3);
+        for (List item : list) assertThat(item.toString()).isEqualTo("hello");
     }
 
     @Test
@@ -390,8 +384,8 @@ public class MockerTest {
             }
         }).asList(3);
 
-        assertEquals(list.size(), 3);
-        for (List item : list) assertEquals(item.toString(), "hello");
+        assertThat(list.size()).isEqualTo(3);
+        for (List item : list) assertThat(item.toString()).isEqualTo("hello");
     }
 
     @Test
@@ -407,8 +401,8 @@ public class MockerTest {
         }).asList(3);
 
         for (List item : list) {
-            assertEquals(item.size(), 3);
-            assertEquals(item.toString(), "hello");
+            assertThat(item.size()).isEqualTo(3);
+            assertThat(item.toString()).isEqualTo("hello");
         }
     }
 
@@ -424,11 +418,8 @@ public class MockerTest {
             }
         }).asList(3);
 
-        assertEquals(list.size(), 3);
-        assertEquals(list.get(0).toString(), "hello");
-        assertEquals(list.get(1).toString(), "hello");
-        assertEquals(list.get(2).toString(), "hello");
-        for (List item : list) assertEquals(item.toString(), "hello");
+        assertThat(list.size()).isEqualTo(3);
+        for (List item : list) assertThat(item.toString()).isEqualTo("hello");
     }
 
     @Test
