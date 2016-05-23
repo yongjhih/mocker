@@ -573,4 +573,22 @@ public class MockerTest {
         }).times(3).mock().size();
     }
 
+    @Test
+    public void testMockerNever() {
+        Mocker<List> mocker = mocker(List.class).<Integer>when(new Func2<List, Integer, Integer>() {
+            @Override public Integer call(List list, Integer i) {
+                return list.size();
+            }
+        }).<Integer>thenReturn(new Func1<List, Integer>() {
+            @Override public Integer call(List list) {
+                return 3;
+            }
+        });
+
+        mocker.never(new Action1<List>() {
+            @Override public void call(List list) {
+            }
+        }).size();
+    }
+
 }

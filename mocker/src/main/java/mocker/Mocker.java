@@ -308,4 +308,10 @@ public class Mocker<T> {
         this.verify2 = verify;
         return this;
     }
+
+    public T never(Action1<T> verify) {
+        T mock = mock();
+        verify.call(mock);
+        return Mockito.verify(mock, Mockito.never());
+    }
 }
