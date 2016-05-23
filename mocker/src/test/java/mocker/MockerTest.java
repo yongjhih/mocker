@@ -86,6 +86,36 @@ public class MockerTest {
     }
 
     @Test
+    public void testMockerWhen2Then() {
+        List mock = mocker(List.class).<Integer>when(new Func2<List, Integer, Integer>() {
+            @Override public Integer call(List list, Integer i) {
+                return list.size();
+            }
+        }).<Integer>thenReturn(new Func1<List, Integer>() {
+            @Override public Integer call(List list) {
+                return 3;
+            }
+        }).mock();
+
+        assertEquals(3, mock.size());
+    }
+
+    @Test
+    public void testMockerWhenThen2() {
+        List mock = mocker(List.class).<Integer>when(new Func1<List, Integer>() {
+            @Override public Integer call(List list) {
+                return list.size();
+            }
+        }).<Integer>thenReturn(new Func2<List, Integer, Integer>() {
+            @Override public Integer call(List list, Integer i) {
+                return 3;
+            }
+        }).mock();
+
+        assertEquals(3, mock.size());
+    }
+
+    @Test
     public void testMockerThenRecursive() {
         Mocker<List> mocker = mocker(List.class).then(new Action1<List>() {
             @Override public void call(List list) {
@@ -274,7 +304,7 @@ public class MockerTest {
     }
 
     @Test
-    public void testMockerAsListWithIndex() {
+    public void testMockerAsListWithIndex() { // When2Then2
         List<List> list = mocker(List.class).<String>when(new Func2<List, Integer, String>() {
             @Override public String call(List list, Integer i) {
                 return list.toString();
@@ -290,7 +320,7 @@ public class MockerTest {
     }
 
     @Test
-    public void testMockerAsListThenWithIndex() {
+    public void testMockerAsListThenWithIndex() { // Then2
         List<List> list = mocker(List.class).then(new Action2<List, Integer>() {
             @Override public void call(List list, Integer i) {
                 Mockito.when(list.toString()).thenReturn("hello");
@@ -302,7 +332,7 @@ public class MockerTest {
     }
 
     @Test
-    public void testMockerThenThenWithIndex() {
+    public void testMockerThenThenWithIndex() { // Then2Then2
         List<List> list = mocker(List.class).then(new Action2<List, Integer>() {
             @Override public void call(List list, Integer i) {
                 Mockito.when(list.size()).thenReturn(3);
