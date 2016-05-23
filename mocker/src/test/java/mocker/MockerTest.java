@@ -48,7 +48,7 @@ public class MockerTest {
 
     @Test
     public void testMockerMock() {
-        List<String> mock = mocker(List.class).mock();
+        List mock = mocker(List.class).mock();
         when(mock.size()).thenReturn(3);
 
         assertEquals(3, mock.size());
@@ -56,7 +56,7 @@ public class MockerTest {
 
     @Test
     public void testMockerOf() {
-        List<String> mock = Mocker.of(List.class).mock();
+        List mock = Mocker.of(List.class).mock();
         when(mock.size()).thenReturn(3);
 
         assertEquals(3, mock.size());
@@ -64,7 +64,7 @@ public class MockerTest {
 
     @Test
     public void testMock() {
-        List<String> mock = mock(List.class);
+        List mock = mock(List.class);
         when(mock.size()).thenReturn(3);
 
         assertEquals(3, mock.size());
@@ -72,7 +72,7 @@ public class MockerTest {
 
     @Test
     public void testMockerWhenThen() {
-        List<String> mock = mocker(List.class).<Integer>when(new Func1<List, Integer>() {
+        List mock = mocker(List.class).<Integer>when(new Func1<List, Integer>() {
             @Override public Integer call(List list) {
                 return list.size();
             }
@@ -100,7 +100,7 @@ public class MockerTest {
 
     @Test
     public void testMockerThen() {
-        List<String> mock = mocker(List.class).then(new Action1<List>() {
+        List mock = mocker(List.class).then(new Action1<List>() {
             @Override public void call(List list) {
                 Mockito.when(list.size()).thenReturn(3);
             }
@@ -111,7 +111,7 @@ public class MockerTest {
 
     @Test
     public void testMockerThenThen() {
-        List<String> mock = mocker(List.class).then(new Action1<List>() {
+        List mock = mocker(List.class).then(new Action1<List>() {
             @Override public void call(List list) {
                 Mockito.when(list.size()).thenReturn(3);
             }
