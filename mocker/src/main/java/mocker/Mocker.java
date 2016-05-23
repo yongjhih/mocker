@@ -18,7 +18,10 @@ public class Mocker<T> {
     Class<T> clazz;
     Func1<T, ?> when;
     Func1<T, ?> thenReturn;
+    Func2<T, Integer, ?> when2;
+    Func2<T, Integer, ?> thenReturn2;
     Action1<T> then;
+    Action2<T, Integer> then2;
     Mocker<T> mocker;
     T that;
 
@@ -36,6 +39,10 @@ public class Mocker<T> {
 
     public interface Action1<V> {
         public void call(V v);
+    }
+
+    public interface Action2<V, V2> {
+        public void call(V v, V2 v2);
     }
 
     public Mocker(Class<T> clazz) {
@@ -57,9 +64,25 @@ public class Mocker<T> {
         return this;
     }
 
+    public <R> Mocker<T> when(Func2<T, Integer, R> when) {
+        if (this.when2 != null) {
+            Mocker<T> mocker = new Mocker<>(this);
+            mocker.when(when);
+            return mocker;
+        }
+        this.when2 = when;
+        return this;
+    }
+
     public <R> Mocker<T> thenReturn(Func1<T, R> thenReturn) {
         if (when == null) throw new NullPointerException("Missing .when()");
         this.thenReturn = thenReturn;
+        return this;
+    }
+
+    public <R> Mocker<T> thenReturn(Func2<T, Integer, R> thenReturn) {
+        if (when2 == null) throw new NullPointerException("Missing .when()");
+        this.thenReturn2 = thenReturn;
         return this;
     }
 
@@ -72,18 +95,26 @@ public class Mocker<T> {
     }
 
     public T mock() {
+        return mock(0);
+    }
+
+    public T mock(int i) {
         if (that == null) that = mock(clazz);
 
         if (mocker != null) {
             mocker.that = that;
-            mocker.mock();
+            mocker.mock(i);
         }
 
         if (when != null && thenReturn != null) {
             Mockito.when(when.call(that)).thenReturn(thenReturn.call(that));
+        } else if (when2 != null && thenReturn2 != null) {
+            Mockito.when(when2.call(that, i)).thenReturn(thenReturn2.call(that, i));
         }
         if (then != null) {
             then.call(that);
+        } else if (then2 != null) {
+            then2.call(that, i);
         }
 
         // clear that after return, to mack sure next mock() will regenerate mock(clazz) that
@@ -115,6 +146,16 @@ public class Mocker<T> {
             return mocker;
         }
         this.then = then;
+        return this;
+    }
+
+    public <V> Mocker<T> then(Action2<T, Integer> then) {
+        if (this.then2 != null) {
+            Mocker<T> mocker = new Mocker<>(this);
+            mocker.then(then);
+            return mocker;
+        }
+        this.then2 = then;
         return this;
     }
 
@@ -154,7 +195,7 @@ public class Mocker<T> {
         List<T> mocks = new ArrayList<>();
 
         for (int i = 0; i < many; i++) {
-            mocks.add(mock());
+            mocks.add(mock(i));
         }
 
         return mocks;
