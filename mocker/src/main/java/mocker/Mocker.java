@@ -135,4 +135,28 @@ public class Mocker<T> {
         this.mocker = mocker;
         return new Mocker<>(this);
     }
+
+    /* TODO
+    public Set<T> asSet() {
+        return asSet();
+    }
+    */
+
+    public List<T> asList() {
+        return asList(1);
+    }
+
+    public List<T> asList(int many) {
+        if (many <= 0) many = 1;
+
+        if (many == 1) return Arrays.asList(mock());
+
+        List<T> mocks = new ArrayList<>();
+
+        for (int i = 0; i < many; i++) {
+            mocks.add(mock());
+        }
+
+        return mocks;
+    }
 }

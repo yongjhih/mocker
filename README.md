@@ -93,7 +93,7 @@ repositories {
 
 dependencies {
     testCompile 'com.github.yongjhih:mocker:-SNAPSHOT'
-    //testCompile 'com.github.yongjhih:mocker:0.1.0'
+    //testCompile 'com.github.yongjhih:mocker:0.1.2'
 }
 ```
 
@@ -111,6 +111,20 @@ assertEquals(3, list2.size());
 
 assertNotEquals("hello", list.toString());
 assertEquals("hello", list2.toString());
+```
+
+## Bonus: asList
+
+```java
+List<List> list = mocker(List.class).when(list -> list.toString()).thenReturn(list -> "hello").asList();
+assertEquals(list.size(), 1);
+assertEquals(list.get(0).toString(), "hello");
+```
+
+```java
+List<List> list = mocker(List.class).when(list -> list.toString()).thenReturn(list -> "hello").asList(3);
+assertEquals(list.size(), 3);
+for (List item : list) assertEquals(item.toString(), "hello");
 ```
 
 ## LICENSE

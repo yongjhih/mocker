@@ -256,4 +256,39 @@ public class MockerTest {
 
         assertSame(mocker.lift(), mocker2);
     }
+
+    @Test
+    public void testMockerAsList() {
+        List<List> list = mocker(List.class).<String>when(new Func1<List, String>() {
+            @Override public String call(List list) {
+                return list.toString();
+            }
+        }).<String>thenReturn(new Func1<List, String>() {
+            @Override public String call(List list) {
+                return "hello";
+            }
+        }).asList();
+
+        assertEquals(list.size(), 1);
+        assertEquals(list.get(0).toString(), "hello");
+    }
+
+    @Test
+    public void testMockerAsListMany() {
+        List<List> list = mocker(List.class).<String>when(new Func1<List, String>() {
+            @Override public String call(List list) {
+                return list.toString();
+            }
+        }).<String>thenReturn(new Func1<List, String>() {
+            @Override public String call(List list) {
+                return "hello";
+            }
+        }).asList(3);
+
+        assertEquals(list.size(), 3);
+        assertEquals(list.get(0).toString(), "hello");
+        assertEquals(list.get(1).toString(), "hello");
+        assertEquals(list.get(2).toString(), "hello");
+        for (List item : list) assertEquals(item.toString(), "hello");
+    }
 }
