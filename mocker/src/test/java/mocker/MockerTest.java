@@ -565,6 +565,25 @@ public class MockerTest {
     }
 
     @Test
+    public void testMockerVerifyWithIndex() {
+        Mocker<List> mocker = mocker(List.class).<Integer>when(new Func2<List, Integer, Integer>() {
+            @Override public Integer call(List list, Integer i) {
+                return list.size();
+            }
+        }).<Integer>thenReturn(new Func1<List, Integer>() {
+            @Override public Integer call(List list) {
+                return 3;
+            }
+        });
+
+        mocker.verify(new Action2<List, Integer>() {
+            @Override public void call(List list, Integer i) {
+                list.size();
+            }
+        }).mock().size();
+    }
+
+    @Test
     public void testMockerNever() {
         Mocker<List> mocker = mocker(List.class).<Integer>when(new Func2<List, Integer, Integer>() {
             @Override public Integer call(List list, Integer i) {
