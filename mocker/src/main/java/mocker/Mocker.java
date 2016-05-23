@@ -75,20 +75,16 @@ public class Mocker<T> {
     }
 
     public <R> Mocker<T> thenReturn(Func1<T, R> thenReturn) {
-        if (when == null) throw new NullPointerException("Missing .when()");
+        if (when == null && when2 == null) throw new NullPointerException("Missing when()");
         this.thenReturn = thenReturn;
         return this;
     }
 
     public <R> Mocker<T> thenReturn(Func2<T, Integer, R> thenReturn) {
-        if (when2 == null) throw new NullPointerException("Missing .when()");
+        if (when == null && when2 == null) throw new NullPointerException("Missing when()");
         this.thenReturn2 = thenReturn;
         return this;
     }
-
-    //public static <V> Mocker<V> of(Class<?> clazz) {
-        //return new Mocker<>
-    //}
 
     public static <V> Mocker<V> of(Class<V> clazz) {
         return new Mocker<>(clazz);
@@ -106,11 +102,20 @@ public class Mocker<T> {
             mocker.mock(i);
         }
 
-        if (when != null && thenReturn != null) {
-            Mockito.when(when.call(that)).thenReturn(thenReturn.call(that));
-        } else if (when2 != null && thenReturn2 != null) {
-            Mockito.when(when2.call(that, i)).thenReturn(thenReturn2.call(that, i));
+        if (when != null) {
+            if (thenReturn != null) {
+                Mockito.when(when.call(that)).thenReturn(thenReturn.call(that));
+            } else if (thenReturn2 != null) {
+                Mockito.when(when.call(that)).thenReturn(thenReturn2.call(that, i));
+            }
+        } else if (when2 != null) {
+            if (thenReturn != null) {
+                Mockito.when(when2.call(that, i)).thenReturn(thenReturn.call(that));
+            } else if (thenReturn2 != null) {
+                Mockito.when(when2.call(that, i)).thenReturn(thenReturn2.call(that, i));
+            }
         }
+
         if (then != null) {
             then.call(that);
         } else if (then2 != null) {
