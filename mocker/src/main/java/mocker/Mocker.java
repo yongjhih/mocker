@@ -168,7 +168,7 @@ public class Mocker<T> {
      * For import
      */
     public static <V> Mocker<V> mocker(Class<V> clazz) {
-        return of(clazz);
+        return (Mocker<V>) of(clazz);
     }
 
     public <V> Mocker<T> then(Action1<T> then) {
@@ -314,4 +314,19 @@ public class Mocker<T> {
         verify.call(mock);
         return Mockito.verify(mock, Mockito.never());
     }
+
+    public T times(Action1<T> verify, int i) {
+        T mock = mock();
+        verify.call(mock);
+        return Mockito.verify(mock, Mockito.times(i));
+    }
+
+    /*
+    public T times(int i, Action1<T> verify) {
+        T mock = mock();
+        mock = Mockito.verify(mock, Mockito.times(i));
+        verify.call(mock);
+        return mock;
+    }
+    */
 }

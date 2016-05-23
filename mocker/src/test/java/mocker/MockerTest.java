@@ -423,7 +423,7 @@ public class MockerTest {
     }
 
     @Test
-    public void testMockerVerify() {
+    public void testMockerWhenThenVerify() {
         Mocker<List> mocker = mocker(List.class).<Integer>when(new Func2<List, Integer, Integer>() {
             @Override public Integer call(List list, Integer i) {
                 return list.size();
@@ -505,7 +505,7 @@ public class MockerTest {
     }
 
     @Test
-    public void testMockerVerifyNever() {
+    public void testMockerWhenThenVerifyNever() {
         Mocker<List> mocker = mocker(List.class).<Integer>when(new Func2<List, Integer, Integer>() {
             @Override public Integer call(List list, Integer i) {
                 return list.size();
@@ -585,6 +585,14 @@ public class MockerTest {
 
     @Test
     public void testMockerNever() {
+        mocker(List.class).never(new Action1<List>() {
+            @Override public void call(List list) {
+            }
+        }).size();
+    }
+
+    @Test
+    public void testMockerWhenThenNever() {
         Mocker<List> mocker = mocker(List.class).<Integer>when(new Func2<List, Integer, Integer>() {
             @Override public Integer call(List list, Integer i) {
                 return list.size();
@@ -599,6 +607,32 @@ public class MockerTest {
             @Override public void call(List list) {
             }
         }).size();
+    }
+
+    @Test
+    public void testMockerVerifyNever() {
+        mocker(List.class).verify(new Action1<List>() {
+            @Override public void call(List list) {
+            }
+        }).never();
+    }
+
+    @Test
+    public void testMockerVerify() {
+        mocker(List.class).verify(new Action1<List>() {
+            @Override public void call(List list) {
+                list.size();
+            }
+        }).mock().size();
+    }
+
+    @Test
+    public void testMockerTimes() {
+        mocker(List.class).times(new Action1<List>() {
+            @Override public void call(List list) {
+                list.size();
+            }
+        }, 1).size();
     }
 
 }

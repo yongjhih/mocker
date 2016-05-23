@@ -83,6 +83,28 @@ rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.all(mocker(ParseQ
         ).completes();
 ```
 
+## verify
+
+Shorten expression:
+
+```java
+mocker(List.class).never(list -> {}).size();
+```
+
+```java
+mocker(List.class).times(list -> list.size(), 1).size();
+```
+
+Normal expression:
+
+```java
+mocker(List.class).verify(list -> {}).never().mock().size();
+```
+
+```java
+mocker(List.class).verify(list -> list.size()).times(1).mock().size();
+```
+
 ## Installation
 
 ```gradle
