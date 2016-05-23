@@ -430,4 +430,147 @@ public class MockerTest {
         assertEquals(list.get(2).toString(), "hello");
         for (List item : list) assertEquals(item.toString(), "hello");
     }
+
+    @Test
+    public void testMockerVerify() {
+        Mocker<List> mocker = mocker(List.class).<Integer>when(new Func2<List, Integer, Integer>() {
+            @Override public Integer call(List list, Integer i) {
+                return list.size();
+            }
+        }).<Integer>thenReturn(new Func1<List, Integer>() {
+            @Override public Integer call(List list) {
+                return 3;
+            }
+        });
+
+        mocker.verify(new Action1<List>() {
+            @Override public void call(List list) {
+                list.size();
+            }
+        }).mock().size();
+    }
+
+    @Test
+    public void testMockerVerifyTimes() {
+        Mocker<List> mocker = mocker(List.class).<Integer>when(new Func2<List, Integer, Integer>() {
+            @Override public Integer call(List list, Integer i) {
+                return list.size();
+            }
+        }).<Integer>thenReturn(new Func1<List, Integer>() {
+            @Override public Integer call(List list) {
+                return 3;
+            }
+        });
+
+        mocker.verify(new Action1<List>() {
+            @Override public void call(List list) {
+                list.size();
+                list.size();
+                list.size();
+            }
+        }).times(3).mock().size();
+    }
+
+    @Test
+    public void testMockerVerifyAtLeast() {
+        Mocker<List> mocker = mocker(List.class).<Integer>when(new Func2<List, Integer, Integer>() {
+            @Override public Integer call(List list, Integer i) {
+                return list.size();
+            }
+        }).<Integer>thenReturn(new Func1<List, Integer>() {
+            @Override public Integer call(List list) {
+                return 3;
+            }
+        });
+
+        mocker.verify(new Action1<List>() {
+            @Override public void call(List list) {
+                list.size();
+                list.size();
+                list.size();
+            }
+        }).atLeast(3).mock().size();
+    }
+
+    @Test
+    public void testMockerVerifyAtMost() {
+        Mocker<List> mocker = mocker(List.class).<Integer>when(new Func2<List, Integer, Integer>() {
+            @Override public Integer call(List list, Integer i) {
+                return list.size();
+            }
+        }).<Integer>thenReturn(new Func1<List, Integer>() {
+            @Override public Integer call(List list) {
+                return 3;
+            }
+        });
+
+        mocker.verify(new Action1<List>() {
+            @Override public void call(List list) {
+                list.size();
+                list.size();
+                list.size();
+            }
+        }).atMost(3).mock().size();
+    }
+
+    @Test
+    public void testMockerVerifyNever() {
+        Mocker<List> mocker = mocker(List.class).<Integer>when(new Func2<List, Integer, Integer>() {
+            @Override public Integer call(List list, Integer i) {
+                return list.size();
+            }
+        }).<Integer>thenReturn(new Func1<List, Integer>() {
+            @Override public Integer call(List list) {
+                return 3;
+            }
+        });
+
+        mocker.verify(new Action1<List>() {
+            @Override public void call(List list) {
+            }
+        }).never().mock().size();
+    }
+
+    @Test
+    public void testMockerVerifyAtLeastOnce() {
+        Mocker<List> mocker = mocker(List.class).<Integer>when(new Func2<List, Integer, Integer>() {
+            @Override public Integer call(List list, Integer i) {
+                return list.size();
+            }
+        }).<Integer>thenReturn(new Func1<List, Integer>() {
+            @Override public Integer call(List list) {
+                return 3;
+            }
+        });
+
+        mocker.verify(new Action1<List>() {
+            @Override public void call(List list) {
+                list.size();
+                list.size();
+                list.size();
+            }
+        }).atLeastOnce().mock().size();
+    }
+
+    @Test
+    public void testMockerVerifyTimesWithIndex() {
+        Mocker<List> mocker = mocker(List.class).<Integer>when(new Func2<List, Integer, Integer>() {
+            @Override public Integer call(List list, Integer i) {
+                return list.size();
+            }
+        }).<Integer>thenReturn(new Func1<List, Integer>() {
+            @Override public Integer call(List list) {
+                return 3;
+            }
+        });
+
+        mocker.verify(new Action2<List, Integer>() {
+            @Override public void call(List list, Integer i) {
+                list.size();
+                list.size();
+                list.size();
+            }
+        }).times(3).mock().size();
+    }
+
 }

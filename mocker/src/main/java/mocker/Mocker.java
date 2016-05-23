@@ -13,6 +13,7 @@ import java.util.ArrayList;
 //import static org.mockito.Mockito.verify;
 //import static org.mockito.Mockito.when;
 import org.mockito.Mockito;
+import org.mockito.verification.VerificationMode;
 
 public class Mocker<T> {
     Class<T> clazz;
@@ -20,10 +21,14 @@ public class Mocker<T> {
     Func1<T, ?> thenReturn;
     Func2<T, Integer, ?> when2;
     Func2<T, Integer, ?> thenReturn2;
+    Action1<T> verify;
+    Action2<T, Integer> verify2;
     Action1<T> then;
     Action2<T, Integer> then2;
     Mocker<T> mocker;
     T that;
+    List<VerificationMode> verifications;
+    VerificationMode verification;
 
     public interface Func0<R> {
         public R call();
@@ -126,6 +131,28 @@ public class Mocker<T> {
         T that = this.that;
         this.that = null;
 
+        if (verify != null) {
+            verify.call(that);
+            /*
+            if (verifications != null) {
+                for (VerificationMode verification : verifications) {
+                }
+            }
+            */
+            if (verification != null) {
+                return Mockito.verify(that, verification);
+            } else {
+                return Mockito.verify(that);
+            }
+        } else if (verify2 != null) {
+            verify2.call(that, i);
+            if (verification != null) {
+                return Mockito.verify(that, verification);
+            } else {
+                return Mockito.verify(that);
+            }
+        }
+
         return that;
     }
 
@@ -204,5 +231,81 @@ public class Mocker<T> {
         }
 
         return mocks;
+    }
+
+    /*
+    public List<VerificationMode> verifications() {
+        if (verifications == null) {
+            verifications = new ArrayList<>();
+        }
+        return verifications
+    }
+    */
+
+    public <V> Mocker<T> times(int times) {
+        verification = Mockito.times(times);
+        return this;
+    }
+
+    public <V> Mocker<T> atLeast(int atLeast) {
+        verification = Mockito.atLeast(atLeast);
+        return this;
+    }
+
+    public <V> Mocker<T> atMost(int atMost) {
+        verification = Mockito.atMost(atMost);
+        return this;
+    }
+
+    public <V> Mocker<T> never() {
+        verification = Mockito.never();
+        return this;
+    }
+
+    public <V> Mocker<T> atLeastOnce() {
+        verification = Mockito.atLeastOnce();
+        return this;
+    }
+
+    /*
+    public <V> Mocker<T> times(int times) {
+        verification = verification != null ? verification.times(times) : Mockito.times(times);
+        return this;
+    }
+
+    public <V> Mocker<T> atLeast(int atLeast) {
+        verification = verification != null ? verification.atLeast(atLeast) : Mockito.atLeast(atLeast);
+        return this;
+    }
+
+    public <V> Mocker<T> atMost(int atMost) {
+        verification = verification != null ? verification.atMost(atMost) : Mockito.atMost(atMost);
+        return this;
+    }
+
+    public <V> Mocker<T> never() {
+        verification = verification != null ? verification.never() : Mockito.never();
+        return this;
+    }
+
+    public <V> Mocker<T> atLeastOnce() {
+        verification = verification != null ? verification.atLeastOnce() : Mockito.atLeastOnce();
+        return this;
+    }
+
+    public <V> Mocker<T> timeout(int timeout) {
+        verification = verification != null ? verification.timeout(timeout) : Mockito.timeout(timeout);
+        return this;
+    }
+    */
+
+    public <V> Mocker<T> verify(Action1<T> verify) {
+        this.verify = verify;
+        return this;
+    }
+
+    public <V> Mocker<T> verify(Action2<T, Integer> verify) {
+        this.verify2 = verify;
+        return this;
     }
 }
