@@ -116,16 +116,49 @@ public class MockerTest {
     }
 
     @Test
-    public void testMockerThenRecursive() {
+    public void testMockerThenResue() {
         Mocker<List> mocker = mocker(List.class).then(new Action1<List>() {
             @Override public void call(List list) {
                 Mockito.when(list.size()).thenReturn(3);
             }
         });
 
-        assertEquals(3, mocker.mock().size());
-        assertEquals(3, mocker.mock().size());
-        assertNotSame(mocker.mock(), mocker.mock());
+        List list = mocker.mock();
+        List list2 = mocker.mock();
+
+        assertEquals(3, list.size());
+        assertEquals(3, list2.size());
+        assertNotSame(list, list2);
+    }
+
+    @Test
+    public void testMockerWhen2Then2Resue() {
+        Mocker<List> mocker = mocker(List.class).<String>when(new Func2<List, Integer, String>() {
+            @Override public String call(List list, Integer i) {
+                return list.toString();
+            }
+        }).<String>thenReturn(new Func2<List, Integer, String>() {
+            @Override public String call(List list, Integer i) {
+                return "hello";
+            }
+        });
+
+        List list = mocker.mock();
+        List list2 = mocker.<Integer>when(new Func2<List, Integer, Integer>() {
+            @Override public Integer call(List list, Integer i) {
+                return list.size();
+            }
+        }).<Integer>thenReturn(new Func1<List, Integer>() {
+            @Override public Integer call(List list) {
+                return 3;
+            }
+        }).mock();
+
+        assertEquals("hello", list.toString());
+        assertEquals("hello", list2.toString());
+        assertNotEquals(3, list.size());
+        assertEquals(3, list2.size());
+        assertNotSame(list, list2);
     }
 
     @Test
@@ -156,7 +189,7 @@ public class MockerTest {
     }
 
     @Test
-    public void testMockerRecursive() {
+    public void testMockerResue() {
         Mocker<List> mocker = mocker(List.class);
 
         assertNotSame(mocker.mock().hashCode(), mocker.mock().hashCode());
