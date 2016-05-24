@@ -9,6 +9,8 @@
 
 ![](art/mocker.png)
 
+Fluent Mockito Builder
+
 ## Usage
 
 mock():
