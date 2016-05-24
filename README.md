@@ -5,6 +5,7 @@
 [![javadoc](https://img.shields.io/github/tag/yongjhih/mocker.svg?label=javadoc)](https://jitpack.io/com/github/yongjhih/mocker/-SNAPSHOT/javadoc/)
 [![Build Status](https://travis-ci.org/yongjhih/mocker.svg)](https://travis-ci.org/yongjhih/mocker)
 [![Coverage Status](https://coveralls.io/repos/github/yongjhih/mocker/badge.svg)](https://coveralls.io/github/yongjhih/mocker)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c624b6f3c24d47b4917768c70e951dc2)](https://codacy.com/app/yongjhih/mocker)
 <!--[![Download](https://api.bintray.com/packages/yongjhih/maven/mocker/images/download.svg) ](https://bintray.com/yongjhih/maven/mocker/_latestVersion)-->
 
 ![](art/mocker.png)
