@@ -17,10 +17,7 @@
 package mocker;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ArrayList;
 
 //import static org.mockito.Matchers.any;
@@ -32,19 +29,18 @@ import org.mockito.Mockito;
 import org.mockito.verification.VerificationMode;
 
 public class Mocker<T> {
-    Class<T> clazz;
-    Func1<T, ?> when;
-    Func1<T, ?> thenReturn;
-    Func2<T, Integer, ?> when2;
-    Func2<T, Integer, ?> thenReturn2;
-    Action1<T> verify;
-    Action2<T, Integer> verify2;
-    Action1<T> then;
-    Action2<T, Integer> then2;
-    Mocker<T> mocker;
-    T that;
-    List<VerificationMode> verifications;
-    VerificationMode verification;
+    public final Class<T> clazz;
+    public Func1<T, ?> when;
+    public Func1<T, ?> thenReturn;
+    public Func2<T, Integer, ?> when2;
+    public Func2<T, Integer, ?> thenReturn2;
+    public Action1<T> verify;
+    public Action2<T, Integer> verify2;
+    public Action1<T> then;
+    public Action2<T, Integer> then2;
+    public Mocker<T> mocker;
+    public T that;
+    public VerificationMode verification;
 
     public interface Func0<R> {
         public R call();
@@ -96,13 +92,13 @@ public class Mocker<T> {
     }
 
     public <R> Mocker<T> thenReturn(Func1<T, R> thenReturn) {
-        if (when == null && when2 == null) throw new NullPointerException("Missing when()");
+        if (when == null && when2 == null) throw new IllegalStateException("Missing when()");
         this.thenReturn = thenReturn;
         return this;
     }
 
     public <R> Mocker<T> thenReturn(Func2<T, Integer, R> thenReturn) {
-        if (when == null && when2 == null) throw new NullPointerException("Missing when()");
+        if (when == null && when2 == null) throw new IllegalStateException("Missing when()");
         this.thenReturn2 = thenReturn;
         return this;
     }
@@ -236,13 +232,14 @@ public class Mocker<T> {
     }
 
     public List<T> asList(int many) {
-        if (many <= 0) many = 1;
+        int n = many;
+        if (n <= 0) n = 1;
 
-        if (many == 1) return Arrays.asList(mock());
+        if (n == 1) return Arrays.asList(mock());
 
         List<T> mocks = new ArrayList<>();
 
-        for (int i = 0; i < many; i++) {
+        for (int i = 0; i < n; i++) {
             mocks.add(mock(i));
         }
 
