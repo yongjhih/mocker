@@ -294,6 +294,7 @@ public class MockerTest {
     public void testMockerLift() {
         Mocker<List> mocker = mocker(List.class).then(new Action1<List>() {
             @Override public void call(List list) {
+                // do nothing
             }
         });
 
@@ -304,6 +305,7 @@ public class MockerTest {
     public void testMockerSafeLift() {
         Mocker<List> mocker = mocker(List.class).then(new Action1<List>() {
             @Override public void call(List list) {
+                // do nothing
             }
         });
 
@@ -314,9 +316,11 @@ public class MockerTest {
     public void testMockerThenThenSafeLift() {
         Mocker<List> mocker = mocker(List.class).then(new Action1<List>() {
             @Override public void call(List list) {
+                // do nothing
             }
         }).then(new Action1<List>() {
             @Override public void call(List list) {
+                // do nothing
             }
         });
 
@@ -327,6 +331,7 @@ public class MockerTest {
     public void testMockerLiftSwtich() {
         Mocker<List> mocker = mocker(List.class).then(new Action1<List>() {
             @Override public void call(List list) {
+                // do nothing
             }
         });
         Mocker<List> mocker2 = mocker.lift(mocker).lift();
@@ -424,7 +429,6 @@ public class MockerTest {
             }
         });
 
-        assertThat(mocker).isNotNull();
         mocker.verify(new Action1<List>() {
             @Override public void call(List list) {
                 list.size();
@@ -444,7 +448,6 @@ public class MockerTest {
             }
         });
 
-        assertThat(mocker).isNotNull();
         mocker.verify(new Action1<List>() {
             @Override public void call(List list) {
                 list.size();
@@ -466,7 +469,6 @@ public class MockerTest {
             }
         });
 
-        assertThat(mocker).isNotNull();
         mocker.verify(new Action1<List>() {
             @Override public void call(List list) {
                 list.size();
@@ -488,7 +490,6 @@ public class MockerTest {
             }
         });
 
-        assertThat(mocker).isNotNull();
 
         mocker.verify(new Action1<List>() {
             @Override public void call(List list) {
@@ -511,9 +512,9 @@ public class MockerTest {
             }
         });
 
-        assertThat(mocker).isNotNull();
         mocker.verify(new Action1<List>() {
             @Override public void call(List list) {
+                // do nothing
             }
         }).never().mock().size();
     }
@@ -530,7 +531,6 @@ public class MockerTest {
             }
         });
 
-        assertThat(mocker).isNotNull();
         mocker.verify(new Action1<List>() {
             @Override public void call(List list) {
                 list.size();
@@ -552,7 +552,6 @@ public class MockerTest {
             }
         });
 
-        assertThat(mocker).isNotNull();
         mocker.verify(new Action2<List, Integer>() {
             @Override public void call(List list, Integer i) {
                 list.size();
@@ -574,7 +573,6 @@ public class MockerTest {
             }
         });
 
-        assertThat(mocker).isNotNull();
         mocker.verify(new Action2<List, Integer>() {
             @Override public void call(List list, Integer i) {
                 list.size();
@@ -589,7 +587,6 @@ public class MockerTest {
                 // do nothing
             }
         }).size();
-        assertThat(true).isTrue(); // FIXME: Workaround error-prone
     }
 
     @Test
@@ -604,9 +601,9 @@ public class MockerTest {
             }
         });
 
-        assertThat(mocker).isNotNull();
         mocker.never(new Action1<List>() {
             @Override public void call(List list) {
+                // do nothing
             }
         }).size();
     }
@@ -618,7 +615,6 @@ public class MockerTest {
                 // do nothing
             }
         }).never();
-        assertThat(true).isTrue(); // FIXME: Workaround error-prone
     }
 
     @Test
@@ -628,7 +624,6 @@ public class MockerTest {
                 list.size();
             }
         }).mock().size();
-        assertThat(true).isTrue(); // FIXME: Workaround error-prone
     }
 
     @Test
@@ -638,7 +633,6 @@ public class MockerTest {
                 list.size();
             }
         }, 1).size();
-        assertThat(true).isTrue(); // FIXME: Workaround error-prone
     }
 
 }
