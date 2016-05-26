@@ -142,15 +142,9 @@ assertEquals("hello", list2.toString());
 ## Bonus: asList
 
 ```java
-List<List> list = mocker(List.class).when(list -> list.toString()).thenReturn(list -> "hello").asList();
-assertEquals(list.size(), 1);
-assertEquals(list.get(0).toString(), "hello");
-```
-
-```java
-List<List> list = mocker(List.class).when(list -> list.toString()).thenReturn(list -> "hello").asList(3);
-assertEquals(list.size(), 3);
-for (List item : list) assertEquals(item.toString(), "hello");
+List<List> lists = mocker(List.class).when(list -> list.toString()).thenReturn(list -> "hello").asList(3);
+assertEquals(lists.size(), 3);
+for (List item : lists) assertEquals(item.toString(), "hello");
 ```
 
 ## LICENSE
