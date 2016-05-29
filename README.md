@@ -83,7 +83,8 @@ rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.all(mocker(ParseQ
             .when(query -> query.countInBackground()).thenReturn(query -> Task.forResult(users.size()))
             .when(query -> query.findInBackground()).thenReturn(query -> Task.forResult(users))
             .when(query -> query.setSkip(any(int.class))).thenReturn(query -> null)
-            .when(query -> query.setLimit(any(int.class))).thenReturn(query -> null).mock())
+            .when(query -> query.setLimit(any(int.class))).thenReturn(query -> null)
+            .mock())
         ).completes();
 ```
 
