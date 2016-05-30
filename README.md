@@ -1,5 +1,6 @@
 # mocker
 
+[![Android Weekly](https://img.shields.io/badge/Android%20Weekly-%23207-blue.svg)](http://androidweekly.net/issues/issue-207)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-mocker-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/3626)
 [![JitPack](https://img.shields.io/github/tag/yongjhih/mocker.svg?label=JitPack)](https://jitpack.io/#yongjhih/mocker)
 [![javadoc](https://img.shields.io/github/tag/yongjhih/mocker.svg?label=javadoc)](https://jitpack.io/com/github/yongjhih/mocker/-SNAPSHOT/javadoc/)
